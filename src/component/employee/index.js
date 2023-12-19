@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import ListEmployee from "./list-employee";
+import { useNavigate } from "react-router-dom";
 
 const Employee = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -24,9 +26,9 @@ const Employee = () => {
 
     try {
       const apiUrl = "http://localhost:8000/api/employee";
-      const token = localStorage.getItem("token");
+      const accessToken = localStorage.getItem("accessToken");
 
-      if (!token) {
+      if (!accessToken) {
         setError("Token not available");
         return;
       }
@@ -35,7 +37,7 @@ const Employee = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(formData),
       });
@@ -51,9 +53,20 @@ const Employee = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/login");
+  };
+
   return (
     <div>
       <h1>Simbanic Employee Form</h1>
+      <br />
+      <div style={{ position: 'absolute', top: 5, right: 0 }}>
+        <button type="button" onClick={handleLogout}>Logout</button>
+      </div>
+      <br />
       <form onSubmit={handleFormSubmit}>
         <label>
           Name:

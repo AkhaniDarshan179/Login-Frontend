@@ -21,9 +21,7 @@ const ForgotPassword = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // const data = await response.json();
-        // localStorage.setItem("token", data.token);
-        // navigate("/change-password");
+        console.log('OK');
       } else {
         setError(data.message);
       }

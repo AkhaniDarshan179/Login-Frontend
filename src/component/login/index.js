@@ -19,7 +19,8 @@ const Login = () => {
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
         navigate("/employee");
       } else {
         setError(data.message);

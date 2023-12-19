@@ -6,14 +6,14 @@ const ListEmployee = () => {
   useEffect(() => {
     const fetchData = async () => {
       const apiUrl = "http://localhost:8000/api/employees";
-      const token = localStorage.getItem("token");
+      const accessToken = localStorage.getItem("accessToken");
 
       try {
         const response = await fetch(apiUrl, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         });
         const data = await response.json();
@@ -57,6 +57,7 @@ const ListEmployee = () => {
           )}
         </tbody>
       </table>
+      
     </div>
   );
 };
