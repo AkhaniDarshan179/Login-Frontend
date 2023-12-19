@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ApiCall from "../../service/apiCall";
+import GetAPiCall from "../../service/getApiCall";
 
 const ListEmployee = () => {
   const [employees, setEmployees] = useState([]);
@@ -9,17 +11,24 @@ const ListEmployee = () => {
       const accessToken = localStorage.getItem("accessToken");
 
       try {
-        const response = await fetch(apiUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const data = await response.json();
-        setEmployees(data.data);
+        // const response = await fetch(apiUrl, {
+        //   method: "GET",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // });
+        // if (!response.ok) {
+        //   console.log("res", response);
+        // } else {
+
+        //   const data = await response.json();
+        const data = await GetAPiCall("employees", accessToken)
+          setEmployees(data.data);
+        // }
+       
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error(error);
       }
     };
 
@@ -57,7 +66,6 @@ const ListEmployee = () => {
           )}
         </tbody>
       </table>
-      
     </div>
   );
 };

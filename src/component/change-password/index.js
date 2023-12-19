@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ApiCall from "../../service/apiCall";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -21,23 +22,24 @@ const ChangePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/change-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ passwords, mobile }),
-        }
-      );
-      const data = await response.json();
+      //   const response = await fetch(
+      //     "http://localhost:8000/api/change-password",
+      //     {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({ passwords, mobile }),
+      //     }
+      //   );
+      //   const data = await response.json();
 
-      if (response.ok) {
-        navigate("/login");
-      } else {
-        setError(data.message);
-      }
+      //   if (response.ok) {
+      await ApiCall("change-password", "POST", { passwords, mobile });
+      navigate("/login");
+      // } else {
+      //   setError(data.message);
+      // }
 
       setPasswords({
         newPassword: "",

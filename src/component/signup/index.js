@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ApiCall from "../../service/apiCall";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -22,26 +23,9 @@ const SignUp = () => {
   const handleSignUp = async () => {
     setUserData("");
     try {
-      const response = await fetch("http://localhost:8000/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: userData.username,
-          mobile: userData.mobile,
-          email: userData.email,
-          password: userData.password,
-        }),
-      });
+      await ApiCall("signup", "POST", userData);
 
-      const data = await response.json();
-      if (response.ok) {
-        console.log("Login successful");
-        navigate("/login");
-      } else {
-        setError(data.message);
-      }
+      navigate("/login");
 
       setUserData({
         username: "",
@@ -50,7 +34,7 @@ const SignUp = () => {
         password: "",
       });
     } catch (error) {
-      console.error("Login failed:", error.message);
+      setError(error);
     }
   };
 
