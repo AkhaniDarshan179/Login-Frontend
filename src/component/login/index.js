@@ -10,11 +10,15 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const data = await ApiCall("login", "POST", { username, password });
+      // const data = await ApiCall("login", "POST", { username, password });
 
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      navigate("/employee");
+      const response = await ApiCall("login", { username, password });
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        navigate("/employee");
+      }
 
       setUsername("");
       setPassword("");

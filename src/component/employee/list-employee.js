@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from "react";
-import ApiCall from "../../service/apiCall";
 import GetAPiCall from "../../service/getApiCall";
 
-const ListEmployee = () => {
+const ListEmployee = (flag) => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const apiUrl = "http://localhost:8000/api/employees";
       const accessToken = localStorage.getItem("accessToken");
 
       try {
-        // const response = await fetch(apiUrl, {
-        //   method: "GET",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Bearer ${accessToken}`,
-        //   },
-        // });
-        // if (!response.ok) {
-        //   console.log("res", response);
-        // } else {
-
-        //   const data = await response.json();
-        const data = await GetAPiCall("employees", accessToken)
-          setEmployees(data.data);
-        // }
-       
+        const data = await GetAPiCall("employees", accessToken);
+        setEmployees(data.data);
       } catch (error) {
         console.error(error);
       }

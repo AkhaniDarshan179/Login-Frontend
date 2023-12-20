@@ -1,8 +1,8 @@
-const ApiCall = async (url, method, body) => {
+const ApiCall = async (endpoint, body) => {
   const baseurl = "http://localhost:8000/api/";
   try {
-    const response = await fetch(`${baseurl}${url}`, {
-      method: method ? method : "GET",
+    const response = await fetch(`${baseurl}${endpoint}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -31,8 +31,8 @@ const ApiCall = async (url, method, body) => {
         }
       }
     } else {
-      const data = await response.json();
-      return data;
+      // const data = await response.json();
+      return response;
     }
   } catch (error) {
     console.log(error);

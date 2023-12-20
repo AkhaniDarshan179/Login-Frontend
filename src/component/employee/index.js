@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ListEmployee from "./list-employee";
 import { useNavigate } from "react-router-dom";
+import ApiCall from "../../service/apiCall";
 
 const Employee = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Employee = () => {
     // e.preventDefault();
 
     try {
-      const apiUrl = "http://localhost:8000/api/employee";
+      // const apiUrl = "http://localhost:8000/api/employee";
       const accessToken = localStorage.getItem("accessToken");
 
       if (!accessToken) {
@@ -33,21 +34,7 @@ const Employee = () => {
         return;
       }
 
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      if (response.ok) {
-        
-        console.log("Employee added successfully");
-      } else {
-        console.error("Failed to add employee");
-      }
+      const data = await ApiCall("employees", formData);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -63,8 +50,10 @@ const Employee = () => {
     <div>
       <h1>Simbanic Employee Form</h1>
       <br />
-      <div style={{ position: 'absolute', top: 5, right: 0 }}>
-        <button type="button" onClick={handleLogout}>Logout</button>
+      <div style={{ position: "absolute", top: 5, right: 0 }}>
+        <button type="button" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
       <br />
       <form onSubmit={handleFormSubmit}>
